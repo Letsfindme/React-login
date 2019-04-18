@@ -2,98 +2,106 @@ import React from "react";
 
 import {userService} from "../_services";
 
-class LoginPage extends React.Component {
-    constructor(props) {
-        super(props);
+class LoginPage extends React.Component { constructor(props) {
+    super(props);
 
-        userService.logout();
+    // userService.logout();
 
-        this.state = {
-            username: "",
-            password: "",
-            submitted: false,
-            loading: false,
-            error: ""
-        };
+    //J'initialise mon state.
+    //Un state est un objet.
+    this.state = {
+        username: "",
+        password: "",
+        submitted: false,
+        loading: false,
+        error: ""
+    };
+}
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    }
-
+    //Quand mon composant s'initialise
     componentDidMount() {
-        console.log( " component did mount actually ");
-        let cars = ["Saab", "Volvo", "BMW"];
+        console.log("Hey, my component is mounted");
+    }
 
-        let fadi = {
-            'key': "hi",
-            'key2': "hello"
+    //Quand on rentre des données dans mon input
+    handleChange(event) {
+        // On destructure event.target pour mettre les event.target.name dans la variable name
+        // Pareil pour event.target.value dans la varible value
+        const { name, value } = event.target;
+        //Si name = username alors on modifie this.state.username
+        //Si name = password alors on modifie this.state.password
+        this.setState({ [name]: value });
+    }
+
+    handleSubmit(event) {
+        //On prévent le button du form d'actualiser la page
+        event.preventDefault();
+
+        //On actualise notre state
+        this.setState({
+            submitted: true
+        });
+
+        //Si la valeur d'username & password est vide, on ne continue pas notre logique
+        //return; fait en sorte de sortir de notre fonction
+
+        if (!(this.state.username && this.state.password)) {
+            console.log("return");
+            return;
         }
-    }
 
-    handleUsernameChange(e) {
-        //console.log(e.target.name, e.target.value);
+        //On actualise notre state
         this.setState({
-            username: e.target.value
-        })
+            loading: true
+        });
+        //On simule notre retour d'api en attendant 2 secondes
+        setTimeout(() => {
+            this.setState({
+                loading: false
+            });
+        }, 2000);
     }
 
-    handlePasswordChange(e){
-        //console.log("password on change", e.target.value)
-        this.setState({
-            password: e.target.value
-        })
-    }
-
-    handleChange (e) {
-        const {name, value} = e.target;
-        console.log(name, value);
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        const {username, password} = this.state;
-        //console.log('pass', this.state.password);
-        console.log("username :", username);
-        console.log("password :", password);
-    }
-
-    showName = (e) =>{
-        e.preventDefault();
-        const {username, password} = this.state;
-        console.log("username :", username);
-        console.log("password :", password);
-    }
-
+    // La fonction render est appelé à chaque fois que le composant se met à jour
     render() {
-        //console.log(this.state);
-        const { username, password } = this.state;
-        const hello = username;
+        console.log("My component re-rendered");
         return (
             <React.Fragment>
                 <h2>Login</h2>
-                <p>{hello}</p>
-                <form name="form" >
+                <form name="form" onSubmit={this.handleSubmit}>
                     <label htmlFor="username">Username</label>
                     <input
                         type="text"
                         className="form-control"
                         name="username"
-                        value={username}
-                        //this.handelUsernameChange() execute this method directly
-                        onChange={this.handleUsernameChange}
+                        value={this.state.username}
+                        onChange={event => this.handleChange(event)}
                     />
+                    {/* Conditional rendering avec deux conditions */}
+                    {this.state.submitted && !this.state.username && (
+                        <div className="error">Username is required</div>
+                    )}
                     <label htmlFor="password">Password</label>
                     <input
                         type="password"
                         className="form-control"
                         name="password"
-                        value={password}
-                        onChange={this.handlePasswordChange}
+                        value={this.state.password}
+                        onChange={event => this.handleChange(event)}
                     />
+                    {/* Conditional rendering avec deux conditions */}
+                    {this.state.submitted && !this.state.password && (
+                        <div className="error">Password is required</div>
+                    )}
                     <div className="form-group">
-                        <button className="btn btn-primary" onClick={this.showName}>Login</button>
+                        <button
+                            onClick={event => this.handleSubmit(event)}
+                            className="btn btn-primary"
+                        >
+                            Login
+                        </button>
+                        {/* Conditional rendering avec deux conditions */}
+                        {this.state.loading && this.state.submitted && <p>Loading</p>}
                     </div>
                 </form>
             </React.Fragment>
