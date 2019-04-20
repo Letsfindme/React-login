@@ -71,14 +71,18 @@ class RegisterPage extends React.Component {
             </div>
         )
         return (
-            <div className="register signup-form">
+            <div className="signup-form">
                 <div className={redClass}></div>
-
-                <form className="bg-light">
+                <form className="container">
                     <h2>Register</h2>
-                    <p class="hint-text">Create your account. It's free and only takes a minute.</p>
-                    <div class="w-100 m-2"></div>
-                    <div className="row justify-content-center">
+                    <p className="hint-text">Sign up with your social media account or email address</p>
+                    <div className="social-btn text-center">
+                        <a href="#" className="btn btn-primary btn-lg"><i className="fa fa-facebook"></i> Facebook</a>
+                        <a href="#" className="btn btn-info btn-lg"><i className="fa fa-twitter"></i> Twitter</a>
+                        <a href="#" className="btn btn-danger btn-lg"><i className="fa fa-google"></i> Google</a>
+                    </div>
+                    <div className="or-seperator"><b>or</b></div>
+                    <div className="">
                         <InputComponent
                             type={'text'}
                             className={"form-control"}
@@ -124,7 +128,7 @@ class RegisterPage extends React.Component {
                             handleChange2={(event) => this.handleChange2(event)} />
                         <div class="w-100"></div>
                     </div>
-                    <div className="form-row justify-content-center">
+                    <div className="justify-content-center">
                         <InputComponent
                             type={'date'}
                             className={"form-control"}

@@ -15,7 +15,8 @@ export class InputComponent extends React.Component {
         return (
             <div className="form-group">
                 <input
-                    className="form-control"
+                    className="form-control input-lg"
+                    required="required"
                     placeholder={this.props.label}
                     type={this.props.type}
                     name={this.props.name}
