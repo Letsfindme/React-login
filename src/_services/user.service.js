@@ -48,10 +48,10 @@ function login2(username, password) {
         formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    console.log(formBody);
+    console.log("formBody ", JSON.stringify(formBody));
     fetch('http://localhost:8080/login', {
         method: 'POST',
-        headrs: {
+        headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: formBody,
@@ -60,7 +60,7 @@ function login2(username, password) {
         credentials: 'include'
     })
         .then((responseData) => {
-            console.log(responseData);
+            console.log(JSON.stringify(responseData));
         });
 }
 
